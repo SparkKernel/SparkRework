@@ -5,4 +5,17 @@ author 'Fr3ckzDK <github.com/dkfrede>'
 description 'Rework of the Sparkling framework'
 version '1.0'
 
-server_export 'Spark'
+server_scripts {
+  "server/*.lua",
+  "server/groups/*.lua",
+  "server/users/*.lua",
+}
+
+client_scripts {
+  "client/*.lua",
+}
+
+shared_scripts {
+  "shared/*.lua",
+  "config/*.lua",
+}
