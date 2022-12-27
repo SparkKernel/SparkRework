@@ -25,33 +25,21 @@ AddEventHandler('playerConnecting', function(_, _, def)
     if not steam then
         def.done("You are not connected to steam.")
         return Connecting.Run(nil, false, 'not_connected_to_steam')
-    else
-        def.done()
     end
+
+    def.done()
 
     local data = Inbuilt.GetPlayer(steam)
     if #data == 0 then
         Inbuilt.InsertPlayer(steam)
-        data = Inbuilt.GetPlayer(steam)
-        currentData = PlayerConfiguration
+        data, currentData = Inbuilt.GetPlayer(steam), PlayerConfiguration
     else
-        local userData = json.decode(data.data)
-        currentData = Inbuilt.CalculateData(userData, PlayerConfiguration, currentData)
+        currentData = Inbuilt.CalculateData(json.decode(data.data), PlayerConfiguration, currentData)
     end
 
     Server.Users.Players[steam] = currentData
     print("LOADED DATA: "..json.encode(currentData))
     Connecting.Run(steam, true, 'success')
-end)
-local dadad = 1
-RegisterCommand('change', function(src)
-    local steam = Server.Identifiers.Steam(src)
-    Server.Users.Players[steam] = {
-        test = "hey",
-        id = tostring(dadad)
-    }
-    dadad = dadad + 1
-    print("CHANGED")
 end)
 
 AddEventHandler('playerDropped', function(reason)
@@ -65,6 +53,8 @@ AddEventHandler('playerDropped', function(reason)
 
     print("SAVING: "..json.encode(Server.Users.Players[steam]))
     Drop.Run(steam, reason)
+
+    Server.Users.Players[steam] = nil
 
     Inbuilt.UpdatePlayerData(steam, Server.Users.Players[steam])
 end)
