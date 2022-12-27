@@ -51,6 +51,7 @@ AddEventHandler('playerDropped', function(reason)
         return print("User is not registered but left")
     end
 
+    print("WEBHOOk")
     print("SAVING: "..json.encode(Server.Users.Players[steam]))
     Drop.Run(steam, reason)
 
