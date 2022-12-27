@@ -1,7 +1,7 @@
-Server = {}
+Client = {}
 
 function Spark()
-    return Server
+  return Client
 end
 
 exports("Spark", Spark)
