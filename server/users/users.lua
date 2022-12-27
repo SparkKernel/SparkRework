@@ -10,7 +10,8 @@ local LoadDelay = 30
 
 local NonSaving = {
     "connecting",
-    "id"
+    "id",
+    "src"
 }
 
 AddEventHandler('playerConnecting', function(_, _, def)
@@ -67,12 +68,17 @@ RegisterNetEvent('playerSpawn', function()
     end
 
     if not Server.Users.Players[steam] then
-        return Error("User with spawned, but is not registered! user: "..steam)
+        return Error("User spawned, but is not registered! user: "..steam)
+    end
+
+    if not Server.Users.Players[steam].connecting then
+        return Error("User spawned, but is already connected - prob... died! user: "..steam)
     end
 
     Debug("User spawned! user: "..steam)
 
     Server.Users.Players[steam].connecting = false
+    Server.Users.Players[steam].src = source
 end)
 
 AddEventHandler('playerDropped', function(reason)
