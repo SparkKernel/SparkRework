@@ -60,7 +60,7 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 function Server.Users.GetAllPlayers()
-    return Server.Users
+    return GetPlayers()
 end
 
 function Server.Users.Get(identifier)
@@ -74,4 +74,3 @@ function Server.Users.Get(identifier)
         print(x)
     end, "success"
 end
-

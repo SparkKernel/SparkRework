@@ -20,8 +20,6 @@ server_scripts {
     'server/users/*',
 }
 
-server_export 'Spark'
-
 client_scripts {
     'client/*'
 }
