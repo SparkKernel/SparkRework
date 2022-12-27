@@ -6,6 +6,12 @@ function Server.Identifiers.Get(source, identifier)
             return v:gsub(identifier..':', "")
         end
     end
+
+    return false, "no_identifier"
+end
+
+function Server.Identifiers.Calculate(identifier)
+
 end
 
 function Server.Identifiers.Steam(source) return Server.Identifiers.Get(source, 'steam') end
