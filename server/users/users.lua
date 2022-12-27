@@ -60,7 +60,7 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 function Server.Users.GetAllPlayers()
-    return Server.Users
+    return Server.Users.Players
 end
 
 function Server.Users.Get(identifier)
