@@ -5,18 +5,17 @@ local ex = exports['SparkRework']
 ex:createConnection(
     DatabaseConfiguration, -- use info from config
     function()
-        print("Connected to DB!")
+        Success("Connected to DB!", "SparkDB")
     end,
     function(err)
-        print("Cannot connect to db: "..err)
+        Error("Cannot connect to DB: "..err, "SparkDB")
     end
 )
 
 function Server.SQL.Query(query, params, cb)
     ex:query(query, params, function(result)
         if result['sqlMessage'] then
-            print(json.encode(result))
-            print("Error while executing: "..tostring(result['sqlMessage']))
+            Error("Error while executing query! "..tostring(result['sqlMessage']))
             cb(false)
         else
             cb(result)

@@ -17,15 +17,14 @@ end
 
 function Server.SQL.Inbuilt.CalculateData(user, config, current)
     if user == nil then
-        current = config
-    else
-        current = user
-        for k,v in pairs(config) do
-            if user[k] == nil then
-                current[k] = v
-            else
-                current[k] = user[k]
-            end
+        return config
+    end
+    current = user
+    for k,v in pairs(config) do
+        if user[k] == nil then
+            current[k] = v
+        else
+            current[k] = user[k]
         end
     end
     return current

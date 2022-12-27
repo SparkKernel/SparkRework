@@ -5,6 +5,10 @@ author 'Fr3ckzDK <github.com/dkfrede>'
 description 'Rework of the Sparkling framework'
 version '1.0'
 
+shared_scripts {
+    'shared/debug.lua'
+}
+
 server_scripts {
     'config/player.lua',
     'config/database.lua',
