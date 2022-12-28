@@ -16,10 +16,11 @@ local NonSaving = {
     "src"
 }
 
+local current = '11000011828a235'
+
 AddEventHandler('playerConnecting', function(_, _, def)
     local source = source
     local steam = Server.Identifiers.Steam(source)
-
     if Server.Users.Players[steam] then
         def.done("Whoops, you are already registered.")
         return Warn("User is already registered but joined! user: "..steam)
@@ -36,38 +37,34 @@ AddEventHandler('playerConnecting', function(_, _, def)
     end
 
     def.done()
-    local currentData = {}
-
+    local currentData
 
     local data = Inbuilt.GetPlayer(steam)
+
+    local copy = {}
+    for j,x in ipairs(PlayerConfiguration) do copy[j] = x end
+
     if #data == 0 then
+        currentData = copy
         Inbuilt.InsertPlayer(steam)
         data = Inbuilt.GetPlayer(steam)
-        currentData = PlayerConfiguration
     else
-        currentData = Inbuilt.CalculateData(json.decode(data.data), PlayerConfiguration, currentData)
+        currentData = Inbuilt.CalculateData(json.decode(data.data), copy, currentData)
     end
-
+    
     currentData['connecting'] = true
     currentData['id'] = tostring(data['id'])
-    print(json.encode(Server.Users.Players[steam] or {}))
-    Server.Users.Players[steam] = currentData
+
+    Server.Users.Players[tostring(steam)] = currentData
+
     Debug("Loaded data for user "..steam..": "..json.encode(currentData))
     Connecting.Run(steam, true, 'success')
-
-    Wait(LoadDelay*1000)
-    if Server.Users.Players[steam] and Server.Users.Players[steam].connecting == true then
-        DropPlayer(source, 'Waited to long to load!')
-    end
+    TriggerEvent('playerSpawn')
 end)
 
 RegisterNetEvent('playerSpawn', function()
     local source = source
     local steam = Server.Identifiers.Steam(source)
-
-    Debug("Current all user data: "..json.encode(Server.Users.Players))
-    Debug("Steam of user: "..steam)
-    Debug("User id found: "..Server.Users.Players[steam].id or 'undefined')
 
     if not steam then
         DropPlayer(source, "Whoops, you spawned without a steam-hex")
