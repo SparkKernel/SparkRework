@@ -4,11 +4,16 @@ local Sync = Server.SQL.Sync
 local Exec = Server.SQL.Execute
 
 function Server.SQL.Inbuilt.GetPlayer(steam)
-    return Sync('SELECT * FROM users WHERE steam = ?', {steam})
+    local resp = Sync('SELECT * FROM users WHERE steam = ?', {steam})
+    if #resp == 0 then
+        return {}
+    else
+        return resp[1]
+    end
 end
 
 function Server.SQL.Inbuilt.InsertPlayer(steam)
-    Exec('INSERT INTO users (steam) VALUES (?)', {steam})
+    Sync('INSERT INTO users (steam) VALUES (?)', {steam})
 end
 
 function Server.SQL.Inbuilt.UpdatePlayerData(steam, data)

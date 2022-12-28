@@ -8,7 +8,7 @@ ex:createConnection(
         Success("Connected to DB!", "SparkDB")
     end,
     function(err)
-        Error("Cannot connect to DB: "..err, "SparkDB")
+        Error("Cannot connect to DB | code: "..err.code.." address: "..err.address.." port: "..err.port.." errno: "..err.errno, "SparkDB")
     end
 )
 

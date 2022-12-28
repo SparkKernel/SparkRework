@@ -21,7 +21,11 @@ server_scripts {
     'server/database/functions.lua',
 
     'server/users/events.lua',
-    'server/users/*',
+    'server/users/data.lua',
+    'server/users/identifiers.lua',
+    'server/users/users.lua',
+    'server/users/spawn.lua',
+    'server/users/drop.lua',
 }
 
 client_scripts {

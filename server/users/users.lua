@@ -1,12 +1,14 @@
 Server.Users.Players = {}
 
-local Join = Server.Users.Events.Add('Join')
+local Spawn = Server.Users.Events.Add('Spawn')
 local Connecting = Server.Users.Events.Add('Connecting')
 local Drop = Server.Users.Events.Add('Drop')
 
+local DropData = Server.Users.Data.Create('Drop')
+
 local Inbuilt = Server.SQL.Inbuilt
 
-local LoadDelay = 30
+local LoadDelay = 60
 
 local NonSaving = {
     "connecting",
@@ -28,26 +30,27 @@ AddEventHandler('playerConnecting', function(_, _, def)
 
     def.update("Checking your data!")
 
-    local currentData = {}
-
     if not steam then
         def.done("You are not connected to steam.")
         return Connecting.Run(nil, false, 'not_connected_to_steam')
     end
 
     def.done()
+    local currentData = {}
+
 
     local data = Inbuilt.GetPlayer(steam)
     if #data == 0 then
         Inbuilt.InsertPlayer(steam)
-        data, currentData = Inbuilt.GetPlayer(steam), PlayerConfiguration
+        data = Inbuilt.GetPlayer(steam)
+        currentData = PlayerConfiguration
     else
         currentData = Inbuilt.CalculateData(json.decode(data.data), PlayerConfiguration, currentData)
     end
 
     currentData['connecting'] = true
-    currentData['id'] = data.id
-
+    currentData['id'] = tostring(data['id'])
+    print(json.encode(Server.Users.Players[steam] or {}))
     Server.Users.Players[steam] = currentData
     Debug("Loaded data for user "..steam..": "..json.encode(currentData))
     Connecting.Run(steam, true, 'success')
@@ -61,6 +64,10 @@ end)
 RegisterNetEvent('playerSpawn', function()
     local source = source
     local steam = Server.Identifiers.Steam(source)
+
+    Debug("Current all user data: "..json.encode(Server.Users.Players))
+    Debug("Steam of user: "..steam)
+    Debug("User id found: "..Server.Users.Players[steam].id or 'undefined')
 
     if not steam then
         DropPlayer(source, "Whoops, you spawned without a steam-hex")
@@ -76,6 +83,9 @@ RegisterNetEvent('playerSpawn', function()
     end
 
     Debug("User spawned! user: "..steam)
+
+    Spawn.Run(steam)
+
 
     Server.Users.Players[steam].connecting = false
     Server.Users.Players[steam].src = source
@@ -94,6 +104,10 @@ AddEventHandler('playerDropped', function(reason)
     for i,v in pairs(NonSaving) do
         data[v] = nil
     end
+
+    DropData(function(d)
+        data = d
+    end, data)
 
     Debug("Saving data for user "..steam..": "..json.encode(data))
     Drop.Run(steam, reason)
