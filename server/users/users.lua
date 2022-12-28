@@ -42,7 +42,7 @@ AddEventHandler('playerConnecting', function(_, _, def)
     local data = Inbuilt.GetPlayer(steam)
 
     local copy = {}
-    for j,x in ipairs(PlayerConfiguration) do copy[j] = x end
+    for j,x in pairs(PlayerConfiguration) do copy[j] = x end
 
     if #data == 0 then
         currentData = copy
@@ -59,7 +59,6 @@ AddEventHandler('playerConnecting', function(_, _, def)
 
     Debug("Loaded data for user "..steam..": "..json.encode(currentData))
     Connecting.Run(steam, true, 'success')
-    TriggerEvent('playerSpawn')
 end)
 
 RegisterNetEvent('playerSpawn', function()
@@ -68,7 +67,7 @@ RegisterNetEvent('playerSpawn', function()
 
     if not steam then
         DropPlayer(source, "Whoops, you spawned without a steam-hex")
-        return Error("Cannot find steam of user! user: "..steam)
+        return Error("Cannot find steam of user! user: "..tostring(steam))
     end
 
     if not Server.Users.Players[steam] then
