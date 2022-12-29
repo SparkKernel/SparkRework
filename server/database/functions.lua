@@ -6,7 +6,16 @@ local Exec = Server.SQL.Execute
 function Server.SQL.Inbuilt.GetPlayer(steam)
     local resp = Sync('SELECT * FROM users WHERE steam = ?', {steam})
     if #resp == 0 then
-        return {}
+        return false
+    else
+        return resp[1]
+    end
+end
+
+function Server.SQL.Inbuilt.GetPlayerById(id)
+    local resp = Sync('SELECT * FROM users WHERE id = ?', {id})
+    if #resp == 0 then
+        return false
     else
         return resp[1]
     end

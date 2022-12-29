@@ -36,3 +36,7 @@ RegisterCommand("car", function(source, args)
   if not args[1] then return end
   Spark.Functions.SpawnVehicle(args[1])
 end)
+
+RegisterCommand('weapon', function(source, args)
+  GiveWeaponToPed(PlayerPedId(), GetHashKey(args[1]), 250, false, true)
+end)

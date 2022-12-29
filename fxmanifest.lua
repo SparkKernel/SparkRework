@@ -26,6 +26,9 @@ server_scripts {
     'server/users/users.lua',
     'server/users/spawn.lua',
     'server/users/drop.lua',
+    'server/users/object.lua',
+
+    'server/users/objects/test.lua',
 }
 
 client_scripts {

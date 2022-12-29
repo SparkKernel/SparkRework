@@ -1,4 +1,5 @@
 Server.Users.Players = {}
+Server.Users.PlayersFromId = {}
 
 local Spawn = Server.Users.Events.Add('Spawn')
 local Connecting = Server.Users.Events.Add('Connecting')
@@ -18,8 +19,9 @@ local NonSaving = {
 
 local current = '11000011828a235'
 
-AddEventHandler('playerConnecting', function(_, _, def)
+AddEventHandler('playerConnecting', function(src, _, def)
     local source = source
+    if tonumber(src) then source = src end
     local steam = Server.Identifiers.Steam(source)
     if Server.Users.Players[steam] then
         def.done("Whoops, you are already registered.")
@@ -44,7 +46,7 @@ AddEventHandler('playerConnecting', function(_, _, def)
     local copy = {}
     for j,x in pairs(PlayerConfiguration) do copy[j] = x end
 
-    if #data == 0 then
+    if not data then
         currentData = copy
         Inbuilt.InsertPlayer(steam)
         data = Inbuilt.GetPlayer(steam)
@@ -55,7 +57,8 @@ AddEventHandler('playerConnecting', function(_, _, def)
     currentData['connecting'] = true
     currentData['id'] = tostring(data['id'])
 
-    Server.Users.Players[tostring(steam)] = currentData
+    Server.Users.Players[steam] = currentData
+    Server.Users.PlayersFromId[data.id] = steam
 
     Debug("Loaded data for user "..steam..": "..json.encode(currentData))
     Connecting.Run(steam, true, 'success')
@@ -97,6 +100,8 @@ AddEventHandler('playerDropped', function(reason)
 
     local data = Server.Users.Players[steam]
 
+    Server.Users.PlayersFromId[data.id] = nil
+
     for i,v in pairs(NonSaving) do
         data[v] = nil
     end
@@ -117,14 +122,34 @@ function Server.Users.GetAllPlayers()
     return Server.Users.Players
 end
 
-function Server.Users.Get(identifier)
+function Server.Users.Get(identifier, cb)
+    local steam
     if type(identifier) ~= "string" then -- can be a source
-        
+        steam = Server.Identifiers.Steam(source)
+        if not steam then return Error("Cannot find getted user") end
     else
-
+        if tonumber(source) then
+            if not Server.Users.PlayersFromId[identifier] and not cb then
+                local user = Inbuilt.GetPlayerById(identifier)
+                if not user then
+                    return Error("Cannot find user!")
+                end
+                steam = user.steam
+            elseif Users.FromId[source] and not callback then
+                steam = Server.Users.PlayersFromId[identifier]
+            else
+                local user = Inbuilt.GetPlayerById(identifier)
+                if not user then
+                    return Error("Cannot find user!")
+                end
+                steam = user.steam
+                cb(PlayerObject(steam))
+                return
+            end
+        else
+            steam = identifier
+        end
     end
     
-    return function(x)
-        
-    end, "success"
+    return PlayerObject(steam)
 end
