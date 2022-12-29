@@ -2,7 +2,10 @@ Server.Users.Data = {}
 Server.Users.Data.Sets = {}
 
 function Server.Users.Data.Create(name)
-    if Server.Users.Data.Sets[name] then return Error("Callback already exists: "..name) end
+    if Server.Users.Data.Sets[name] then
+        Error("Callback already exists: "..name)
+        return false, "callback_already_exists"
+    end
     Server.Users.Data.Sets[name] = {}
 
     return function(func, ...)
@@ -13,6 +16,9 @@ function Server.Users.Data.Create(name)
 end
 
 function Server.Users.Data.Handle(name, func)
-    if not Server.Users.Data.Sets[name] then return Error("Callback does not exist: "..name) end
+    if not Server.Users.Data.Sets[name] then
+        Error("Callback does not exist: "..name)
+        return false, "callback_does_not_exist"
+    end
     table.insert(Server.Users.Data.Sets[name], func)
 end

@@ -4,7 +4,10 @@ Server.Users.Events = {}
 local CurrentEvents = {}
 
 function Server.Users.Events.Add(name)
-    if CurrentEvents[name] ~= nil then return Error("Event already exists") end
+    if CurrentEvents[name] ~= nil then
+        Error("Event already exists")
+        return false, "event_already_exists"
+    end
     CurrentEvents[name] = {}
     return {
         Run = function(...)
@@ -16,6 +19,9 @@ function Server.Users.Events.Add(name)
 end
 
 function Server.Users.Events.Handle(name, func)
-    if CurrentEvents[name] == nil then return Error("Event does not exist") end
+    if CurrentEvents[name] == nil then
+        Error("Event does not exist")
+        return false, "invalid_event"
+    end
     table.insert(CurrentEvents[name], func)
 end

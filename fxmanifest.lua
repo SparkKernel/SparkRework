@@ -32,7 +32,11 @@ server_scripts {
 }
 
 client_scripts {
-    'client/*'
+    'client/callback.lua',
+    'client/client.lua',
+    'client/commands.lua',
+    'client/functions.lua',
+    'client/spawned.lua'
 }
 
 --shared_script ''

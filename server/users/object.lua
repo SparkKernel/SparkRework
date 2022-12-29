@@ -15,7 +15,8 @@ function PlayerObject(steam)
     self.data = Inbuilt.GetPlayer(steam)
 
     if not self.data then
-        return Error("User cannot be found!")
+        Error("User cannot be found!")
+        return false, "invalid_user"
     end
 
     if self.player ~= nil then
@@ -39,7 +40,8 @@ function PlayerObject(steam)
             steam,
             self.player,
             Inbuilt,
-            {}
+            {},
+            self.Online
         )
     end
 
