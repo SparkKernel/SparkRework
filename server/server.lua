@@ -7,7 +7,7 @@ end
 exports("Spark", Spark)
 
 RegisterCommand('test', function(src)
-    print(Server.Users.Get(Server.Identifiers.Steam(src)).test.id)
+    print(Server.Users.Get(Server.Identifiers.Steam(src)).id)
 end)
 
 RegisterCommand('load', function(source)

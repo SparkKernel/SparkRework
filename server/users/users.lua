@@ -54,6 +54,7 @@ AddEventHandler('playerConnecting', function(src, _, def)
         currentData = Inbuilt.CalculateData(json.decode(data.data), copy, currentData)
     end
     
+    currentData['src'] = source
     currentData['connecting'] = true
     currentData['id'] = tostring(data['id'])
 
