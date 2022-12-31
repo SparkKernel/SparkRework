@@ -12,6 +12,7 @@ shared_scripts {
 server_scripts {
     'config/player.lua',
     'config/database.lua',
+    'config/groups.lua',
 
     'server/*',
 
@@ -31,6 +32,7 @@ server_scripts {
     'server/users/objects/client.lua',
     'server/users/objects/cash.lua',
     'server/users/objects/position.lua',
+    'server/users/objects/groups.lua',
 }
 
 client_scripts {

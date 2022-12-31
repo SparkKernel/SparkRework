@@ -13,7 +13,7 @@ function PlayerObject(steam)
     self.player = Server.Users.Players[steam]
 
     if self.player then
-        self.source = self.player.src
+        self.source = self.player.src or 0
     else
         self.source = 0
     end

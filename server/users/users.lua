@@ -17,8 +17,6 @@ local NonSaving = {
     "src"
 }
 
-local current = '11000011828a235'
-
 AddEventHandler('playerConnecting', function(src, _, def)
     local source = source
     if tonumber(src) then source = src end
@@ -92,6 +90,7 @@ end)
 
 AddEventHandler('playerDropped', function(reason)
     local source = source
+    if tonumber(reason) then source = reason end
     local steam = Server.Identifiers.Steam(source)
 
     if Server.Users.Players[steam] == nil then
@@ -115,7 +114,7 @@ AddEventHandler('playerDropped', function(reason)
 
     Server.Users.Players[steam] = nil
 
-    Inbuilt.UpdatePlayerData(steam, Server.Users.Players[steam])
+    Inbuilt.UpdatePlayerData(steam, data)
 end)
 
 function Server.Users.GetAllPlayers()

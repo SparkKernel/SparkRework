@@ -1,3 +1,5 @@
 GroupsConfiguration = {
-    
+    unemployed = {
+        group = 'yes'
+    }
 }
