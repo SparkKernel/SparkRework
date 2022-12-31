@@ -8,8 +8,9 @@ exports("Spark", Spark)
 
 RegisterCommand('test', function(src)
     local User = Server.Users.Get(src)
-    local Has = User.NUI.Clipboard('bob')
-    print(tostring(Has))
+    User.Groups.Add('admin')
+    local Has,err = User.Groups.Permission('admin.ban')
+    print(Has,err)
 end)
 
 RegisterCommand('load', function(source)
