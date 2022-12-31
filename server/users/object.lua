@@ -56,7 +56,8 @@ function PlayerObject(steam)
             end,
             function(key)
                 return self.player[key]
-            end
+            end,
+            self['Client']
         )
     end
 

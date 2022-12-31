@@ -40,7 +40,9 @@ client_scripts {
     'client/client.lua',
     'client/commands.lua',
     'client/functions.lua',
-    'client/spawned.lua'
+    'client/spawned.lua',
+    'client/nui.lua',
+    'client/clippaord.lua'
 }
 
 --shared_script ''

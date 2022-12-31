@@ -30,12 +30,7 @@ AddPlayerObject({
                 end
                 return exists(data.groups, group)
             else
-                local has = exists(get('groups'), group)
-                if not has then
-                    return false, "user_no_group"
-                else
-                    return true, "user_has_group"
-                end
+                return exists(get('groups'), group)
             end
         end
         return obj
