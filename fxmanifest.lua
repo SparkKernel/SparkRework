@@ -5,6 +5,14 @@ author 'Fr3ckzDK <github.com/dkfrede>'
 description 'Rework of the Sparkling framework'
 version '1.0'
 
+ui_page 'interface/index.html'
+files {
+    'interface/index.html',
+    'interface/index.css',
+    'interface/index.js',
+    'interface/clipboard/handler.js',
+}
+
 shared_scripts {
     'shared/debug.lua'
 }
@@ -33,6 +41,7 @@ server_scripts {
     'server/users/objects/cash.lua',
     'server/users/objects/position.lua',
     'server/users/objects/groups.lua',
+    'server/users/objects/nui.lua',
 }
 
 client_scripts {
@@ -41,8 +50,7 @@ client_scripts {
     'client/commands.lua',
     'client/functions.lua',
     'client/spawned.lua',
-    'client/nui.lua',
-    'client/clippaord.lua'
+    'client/nui.lua'
 }
 
 --shared_script ''

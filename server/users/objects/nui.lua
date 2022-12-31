@@ -10,28 +10,21 @@ AddPlayerObject({
                 'Sparkling:SendNuiMessage',
                 data
             )
+
+            return true, "success"
         end
         
-        obj.Clipboard = {}
-        function obj.Clipboard.Set(text)
+        function obj.Clipboard(text)
             if not online() then
                 return false, "user_not_online"
             end
 
             obj.Send({
                 type = "clipboard",
-                action = "set",
                 data = text
             })
-        end
 
-        function obj.Clipboard.Get()
-            if not online() then
-                return false, "user_not_online"
-            end
-
-            local CallbackResponse = client.Sync.Callback('getClipboard')
-            print(CallbackResponse)
+            return true, "success"
         end
         
         return obj
