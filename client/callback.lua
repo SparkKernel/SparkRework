@@ -14,7 +14,6 @@ RegisterNetEvent("Sparkling:TriggerClientCallback", function(name, callbackId, .
         Error("Callback does not exist")
         return false, "invalid_callback"
     end
-    print("RUN")
     local resp = Callbacks[name](...)
     TriggerServerEvent("Sparkling:ReturnClientCallback", callbackId, resp)
 end)

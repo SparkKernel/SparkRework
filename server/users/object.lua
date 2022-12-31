@@ -12,6 +12,15 @@ function PlayerObject(steam)
     
     self.player = Server.Users.Players[steam]
 
+    if self.player then
+        self.source = self.player.src
+    else
+        self.source = 0
+    end
+
+    self.discord = Server.Identifiers.Discord(self.source)
+    self.license = Server.Identifiers.License(self.source)
+
     self.data = Inbuilt.GetPlayer(steam)
 
     if not self.data then
@@ -41,7 +50,13 @@ function PlayerObject(steam)
             self.player,
             Inbuilt,
             {},
-            self.Online
+            self.Online,
+            function(key, val)
+                self.player[key] = val
+            end,
+            function(key)
+                return self.player[key]
+            end
         )
     end
 

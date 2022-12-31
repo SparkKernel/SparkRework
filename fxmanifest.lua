@@ -29,6 +29,7 @@ server_scripts {
     'server/users/object.lua',
 
     'server/users/objects/client.lua',
+    'server/users/objects/cash.lua',
 }
 
 client_scripts {

@@ -7,10 +7,10 @@ end
 exports("Spark", Spark)
 
 RegisterCommand('test', function(src)
-    local user = Server.Users.Get(Server.Identifiers.Steam(src))
-    user.Client.Callback("test", function(resp)
-        print(resp)
-    end)
+    local User = Server.Users.Get(src)
+    print(User.Cash.Get())
+    User.Cash.Remove(100)
+    print(User.Cash.Get())
 end)
 
 RegisterCommand('load', function(source)

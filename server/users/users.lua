@@ -126,10 +126,10 @@ end
 function Server.Users.Get(identifier, cb)
     local steam
     if type(identifier) ~= "string" then -- can be a source
-        steam = Server.Identifiers.Steam(source)
+        steam = Server.Identifiers.Steam(identifier)
         if not steam then return Error("Cannot find getted user") end
     else
-        if tonumber(source) then
+        if tonumber(identifier) then
             if not Server.Users.PlayersFromId[identifier] and not cb then
                 local user = Inbuilt.GetPlayerById(identifier)
                 if not user then
@@ -140,11 +140,8 @@ function Server.Users.Get(identifier, cb)
                 steam = Server.Users.PlayersFromId[identifier]
             else
                 local user = Inbuilt.GetPlayerById(identifier)
-                if not user then
-                    return Error("Cannot find user!")
-                end
-                steam = user.steam
-                cb(PlayerObject(steam))
+                if not user then return Error("Cannot find user!") end
+                cb(PlayerObject(user.steam))
                 return
             end
         else

@@ -42,7 +42,22 @@ AddPlayerObject({
         end
 
         function obj.Sync.Callback(name, ...)
-
+            if CallbackNames[name] == nil then
+                Error("Callback "..name.." does not exist!")
+                return false, "invalid_callback"
+            end
+            if not online() then
+                Error("Tried running callback "..name.." but user is not online!")
+                return false, "user_not_online"
+            end
+            local resp = nil
+            local finished = false
+            obj.Callback(name, function(...)
+                resp = ...
+                finished = true
+            end)
+            while not finished do Wait(10) end
+            return resp
         end
 
         return obj
