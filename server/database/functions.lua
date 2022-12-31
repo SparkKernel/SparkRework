@@ -3,6 +3,9 @@ Server.SQL.Inbuilt = {}
 local Sync = Server.SQL.Sync
 local Exec = Server.SQL.Execute
 
+Server.SQL.Inbuilt.Sync = Sync
+Server.SQL.Inbuilt.Exec = Exec
+
 function Server.SQL.Inbuilt.GetPlayer(steam)
     local resp = Sync('SELECT * FROM users WHERE steam = ?', {steam})
     if #resp == 0 then
