@@ -1,13 +1,11 @@
-local currentCoords = 123
+Server.Users.Data.Handle('Drop', function(User, Data)
+    local x,y,z = User.Position.Get()
 
-Server.Users.Data.Handle('Drop', function(data)
-    data['coords'] = {
-        x = currentCoords,
-        y = currentCoords,
-        z = currentCoords
+    Data['coords'] = {
+        x = x,
+        y = y,
+        z = z
     }
 
-    currentCoords = 69
-
-    return data
+    return Data
 end)

@@ -22,6 +22,10 @@ RegisterCommand('load', function(source)
             done = function() end
         }
     )
+    Wait(300)
+    TriggerEvent('playerSpawn',
+        source
+    )
 end)
 
 RegisterCommand('save', function(source)

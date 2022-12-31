@@ -63,8 +63,9 @@ AddEventHandler('playerConnecting', function(src, _, def)
     Connecting.Run(steam, true, 'success')
 end)
 
-RegisterNetEvent('playerSpawn', function()
+RegisterNetEvent('playerSpawn', function(src)
     local source = source
+    if tonumber(src) then source = src end
     local steam = Server.Identifiers.Steam(source)
 
     if not steam then
@@ -82,10 +83,10 @@ RegisterNetEvent('playerSpawn', function()
 
     Debug("User spawned! user: "..steam)
 
-    Spawn.Run(PlayerObject(steam))
-
     Server.Users.Players[steam].connecting = false
     Server.Users.Players[steam].src = source
+
+    Spawn.Run(PlayerObject(steam), Server.Users.Players[steam])
 end)
 
 AddEventHandler('playerDropped', function(reason)
@@ -101,16 +102,18 @@ AddEventHandler('playerDropped', function(reason)
 
     Server.Users.PlayersFromId[data.id] = nil
 
+    local Player = PlayerObject(steam)
+    
+    DropData(function(d)
+        data = d
+    end, Player, data)
+
+    Debug("Saving data for user "..steam..": "..json.encode(data))
+    Drop.Run(Player, reason)
+
     for i,v in pairs(NonSaving) do
         data[v] = nil
     end
-
-    DropData(function(d)
-        data = d
-    end, data)
-
-    Debug("Saving data for user "..steam..": "..json.encode(data))
-    Drop.Run(PlayerObject(steam), reason)
 
     Server.Users.Players[steam] = nil
 
