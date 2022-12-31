@@ -30,6 +30,7 @@ server_scripts {
 
     'server/users/objects/client.lua',
     'server/users/objects/cash.lua',
+    'server/users/objects/position.lua',
 }
 
 client_scripts {

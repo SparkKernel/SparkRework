@@ -8,9 +8,7 @@ exports("Spark", Spark)
 
 RegisterCommand('test', function(src)
     local User = Server.Users.Get(src)
-    print(User.Cash.Get())
-    User.Cash.Remove(100)
-    print(User.Cash.Get())
+    print(User.Position.Set(0,0,0))
 end)
 
 RegisterCommand('load', function(source)

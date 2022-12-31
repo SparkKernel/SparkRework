@@ -84,8 +84,7 @@ RegisterNetEvent('playerSpawn', function()
 
     Debug("User spawned! user: "..steam)
 
-    Spawn.Run(steam)
-
+    Spawn.Run(PlayerObject(steam))
 
     Server.Users.Players[steam].connecting = false
     Server.Users.Players[steam].src = source
@@ -112,7 +111,7 @@ AddEventHandler('playerDropped', function(reason)
     end, data)
 
     Debug("Saving data for user "..steam..": "..json.encode(data))
-    Drop.Run(steam, reason)
+    Drop.Run(PlayerObject(steam), reason)
 
     Server.Users.Players[steam] = nil
 
